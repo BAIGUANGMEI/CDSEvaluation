@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8787', // Local dev default
+  baseURL: import.meta.env.VITE_API_URL || 'https://cdsbackend.meizhihan111.workers.dev', 
   headers: {
     'Content-Type': 'application/json',
   },
