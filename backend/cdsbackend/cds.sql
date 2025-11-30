@@ -6,12 +6,14 @@ CREATE TABLE IF NOT EXISTS users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 2. 课程表 (Courses)
+-- 管理员创建的课程信息
 CREATE TABLE IF NOT EXISTS courses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    course_code VARCHAR(255) NOT NULL UNIQUE,        -- 课程编号 (如: CS101)
-    course_name VARCHAR(255) NOT NULL,               -- 课程名称
-    professor VARCHAR(255),                          -- 教授姓名 (选填)
-    major VARCHAR(255),                         -- 专业划分 (如: ECIC, CS, FADT, STAT)
+    course_code TEXT NOT NULL UNIQUE,        -- 课程编号 (如: CS101)
+    course_name TEXT NOT NULL,               -- 课程名称
+    professor TEXT,                          -- 教授姓名 (选填)
+    major TEXT,                              -- 专业划分 (如: ECIC, CS, FADT, STAT)
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -29,5 +31,6 @@ CREATE TABLE IF NOT EXISTS evaluations (
     has_final_exam INTEGER DEFAULT 0,    -- 是否有期末考试
     attendance_checked INTEGER DEFAULT 0, -- 是否考勤
     -- 文本评价
-    comment TEXT                            -- 其他评价文本
+    comment TEXT,                            -- 其他评价文本
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP 
 );
