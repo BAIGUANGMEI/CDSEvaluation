@@ -12,10 +12,20 @@ const loading = ref(false);
 const authStore = useAuthStore();
 const themeStore = useThemeStore();
 const selectedMajor = ref('');
+const searchQuery = ref('');
 const router = useRouter();
 
 const t = computed(() => locales[themeStore.language].home);
 const tCommon = computed(() => locales[themeStore.language].common);
+
+const filteredCourses = computed(() => {
+  if (!searchQuery.value) return courses.value;
+  const query = searchQuery.value.toLowerCase();
+  return courses.value.filter(course => 
+    course.course_name.toLowerCase().includes(query) || 
+    course.course_code.toLowerCase().includes(query)
+  );
+});
 
 // Modal State
 const showModal = ref(false);
@@ -95,8 +105,21 @@ onMounted(() => {
         {{ t.title }}
       </h1>
       
-      <div class="flex items-center space-x-4 w-full md:w-auto">
-        <div class="relative group">
+      <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
+        <!-- Search Input -->
+        <div class="relative group w-full md:w-64">
+          <input 
+            v-model="searchQuery" 
+            type="text" 
+            :placeholder="t.search_placeholder"
+            class="w-full bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 pl-10 text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all hover:bg-white dark:hover:bg-gray-800 shadow-sm"
+          >
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-3 text-gray-500 dark:text-gray-400">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+        </div>
+
+        <div class="relative group w-full md:w-auto">
           <select 
             v-model="selectedMajor" 
             @change="fetchCourses"
@@ -127,7 +150,7 @@ onMounted(() => {
 
     <div v-else class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       <div 
-        v-for="course in courses" 
+        v-for="course in filteredCourses" 
         :key="course.id" 
         class="group relative overflow-hidden rounded-2xl bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-white/20 dark:border-gray-700/30 p-6 shadow-xl shadow-gray-200/50 dark:shadow-none hover:bg-white/60 dark:hover:bg-gray-800/60 hover:-translate-y-1 transition-all duration-300"
       >
@@ -172,7 +195,7 @@ onMounted(() => {
       </div>
     </div>
     
-    <div v-if="!loading && courses.length === 0" class="flex flex-col items-center justify-center py-20 text-gray-400 dark:text-gray-500">
+    <div v-if="!loading && filteredCourses.length === 0" class="flex flex-col items-center justify-center py-20 text-gray-400 dark:text-gray-500">
       <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
       <p class="text-lg">{{ t.no_courses }}</p>
     </div>

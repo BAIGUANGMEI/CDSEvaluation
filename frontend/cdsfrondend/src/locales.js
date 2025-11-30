@@ -27,7 +27,8 @@ export default {
       view_evaluation: '查看评价',
       edit: '编辑',
       delete: '删除',
-      confirm_delete: '确定要删除这门课程吗？'
+      confirm_delete: '确定要删除这门课程吗？',
+      search_placeholder: '搜索课程名称或编号...'
     },
     course: {
       write_review: '写评价',
@@ -110,7 +111,8 @@ export default {
       view_evaluation: 'View Reviews',
       edit: 'Edit',
       delete: 'Delete',
-      confirm_delete: 'Are you sure you want to delete this course?'
+      confirm_delete: 'Are you sure you want to delete this course?',
+      search_placeholder: 'Search course name or code...'
     },
     course: {
       write_review: 'Write Review',
